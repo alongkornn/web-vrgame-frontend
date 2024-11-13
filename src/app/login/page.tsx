@@ -1,21 +1,8 @@
-import * as React from "react";
+export default function Login() {
+    return (
+        <>
+            <h1>Login Page</h1>
+        </>
+    )
+}
 
-interface IPageProps {}
-
-const Page: React.FunctionComponent<IPageProps> = (props) => {
-  return (
-    <>
-      <form>
-        <label htmlFor="">Email</label>
-        <input type="text" name="email" placeholder="Email" />
-
-        <br />
-
-        <label htmlFor="">Password</label>
-        <input type="password" name="password" placeholder="Password" />
-      </form>
-    </>
-  );
-};
-
-export default Page;
