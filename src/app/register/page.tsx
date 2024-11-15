@@ -1,7 +1,7 @@
 "use client";
 
 import axios from "axios";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 export default function Page() {
   const [data, setData] = useState({});
