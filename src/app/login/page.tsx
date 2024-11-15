@@ -4,15 +4,13 @@ import axios from "axios";
 import { useState } from "react";
 
 export default function Login() {
-  const [data, setData] = useState([{}]);
+  const [data, setData] = useState({});
 
   const handleChage = (e: any) => {
-    setData(() => [
-      {
-        ...data,
-        [e.target.name]: e.target.value
-      }
-    ]);
+    setData({
+      ...data,
+      [e.target.name]: e.target.value
+    });
   };
 
   const handleSubmit = async () => {
