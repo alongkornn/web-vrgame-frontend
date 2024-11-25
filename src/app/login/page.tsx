@@ -11,7 +11,10 @@ export default function Page() {
   };
 
   const handleSubmit = async () => {
-    const response = await axios.post("127.0.0.1:8000/api/auth/login", data);
+    const response = await axios.post(
+      "http://localhost:8000/api/auth/login",
+      data
+    );
 
     if (response.data.status !== "success") {
       await alert("Fail to login");
