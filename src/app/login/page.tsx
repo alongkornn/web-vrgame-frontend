@@ -3,30 +3,22 @@
 import axios from "axios";
 import { useState } from "react";
 
-export default function Login() {
+export default function Page() {
   const [data, setData] = useState({});
 
-  const handleChage = (e: any) => {
-    setData({
-      ...data,
-      [e.target.name]: e.target.value
-    });
+  const handleChange = (e: any) => {
+    setData({ ...data, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async () => {
-    const response = await axios.post(
-      "http://localhost:8000/api/auth/login",
-      data
-    );
+    const response = await axios.post("127.0.0.1:8000/api/auth/login", data);
 
-    if (response.data.message !== "success") {
+    if (response.data.status !== "success") {
       await alert("Fail to login");
     }
 
     await alert(response.data.message);
   };
-
-  console.log(data);
 
   return (
     <>
@@ -36,7 +28,7 @@ export default function Login() {
           type="text"
           name="email"
           placeholder="Email"
-          onChange={(e) => handleChage(e)}
+          onChange={(e) => handleChange(e)}
         />
         <br />
         <label htmlFor="">Password</label>
@@ -44,9 +36,10 @@ export default function Login() {
           type="password"
           name="password"
           placeholder="Password"
-          onChange={(e) => handleChage(e)}
+          onChange={(e) => handleChange(e)}
         />
       </form>
+      <button onClick={handleSubmit}>Login</button>
     </>
   );
 }
