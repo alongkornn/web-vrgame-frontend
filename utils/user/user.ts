@@ -6,5 +6,7 @@ export interface User {
     password: string;
     class: string;
     number: string;
-    score: number
+    score: number;
+    currentCheckpoint: Checkpoint;
+    completedCheckpoint: Checkpoint[];
   }
