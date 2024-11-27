@@ -22,7 +22,7 @@ function Player({ params }: { params: { id: string } }) {
     try {
       const response = await axios.get(`http://localhost:8000/api/user/${id}`);
 
-      setData(response.data.data); // คาดว่าข้อมูล user อยู่ใน response.data.data
+      setData(response.data.data); // fix data.map() is not a function
     } catch (error) {
       console.error(error);
     }
