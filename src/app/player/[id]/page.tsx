@@ -3,8 +3,12 @@ import { useState, useEffect } from "react";
 
 import axios from "axios";
 import { User } from "../../../../utils/user/user";
+import { useParams } from "next/navigation";
 
-function Player({ params }: { params: { id: string } }) {
+function Player() {
+  const params = useParams() as Record<string, string | undefined>;
+  const id = params.id as string;
+
   const [data, setData] = useState<User>({
     id: "",
     firstname: "",
@@ -14,7 +18,6 @@ function Player({ params }: { params: { id: string } }) {
     class: "",
     number: "",
     score: 0,
-    currentCheckpoint: null,
     completedCheckpoint: []
   });
 
@@ -29,7 +32,7 @@ function Player({ params }: { params: { id: string } }) {
   };
 
   useEffect(() => {
-    getUserByID(params.id);
+    getUserByID(id);
   }, []);
 
   return (
@@ -39,10 +42,22 @@ function Player({ params }: { params: { id: string } }) {
       </h1>
       <h1>Score : {data.score}</h1>
       <h1>
-        Name : {data.firstname} {data.lastname}
+        Current Checkpoint :{" "}
+        {data.currentCheckpoint == null ? (
+          <p>undefind</p>
+        ) : (
+          data.currentCheckpoint.name
+        )}
       </h1>
       <h1>
-        Name : {data.firstname} {data.lastname}
+        Completed Checkpoint :
+        {!data.completedCheckpoint || data.completedCheckpoint.length === 0 ? (
+          <p>You don't have completed checkpoint</p>
+        ) : (
+          data.completedCheckpoint.map((item, index) => (
+            <div key={index}>{item.name}</div>
+          ))
+        )}
       </h1>
     </div>
   );

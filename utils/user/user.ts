@@ -9,6 +9,6 @@ export interface User {
     class: string;
     number: string;
     score: number;
-    currentCheckpoint: Checkpoint | null;
+    currentCheckpoint?: Checkpoint;
     completedCheckpoint: Checkpoint[];
   }
