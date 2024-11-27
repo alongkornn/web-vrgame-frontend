@@ -29,7 +29,7 @@ function Player() {
       <div className="text-center my-20 ">
         {data.map((item, index) => (
           <div key={index}>
-            <Link href={`/product/${item.id}`} className="text-2xl my-10">
+            <Link href={`/player/${item.id}`} className="text-2xl my-10">
               {item.firstname} {item.lastname}
             </Link>
           </div>
