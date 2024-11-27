@@ -14,13 +14,13 @@ function Player({ params }: { params: { id: string } }) {
     class: "",
     number: "",
     score: 0,
+    currentCheckpoint: null,
+    completedCheckpoint: []
   });
 
   const getUserByID = async (id: string) => {
     try {
-      const response = await axios.post(
-        `http://localhost:8000/api/user/get/user/${id}`
-      );
+      const response = await axios.get(`http://localhost:8000/api/user/${id}`);
 
       setData(response.data.data); // คาดว่าข้อมูล user อยู่ใน response.data.data
     } catch (error) {
@@ -37,9 +37,7 @@ function Player({ params }: { params: { id: string } }) {
       <h1>
         Name : {data.firstname} {data.lastname}
       </h1>
-      <h1>
-        Score : {data.score}
-      </h1>
+      <h1>Score : {data.score}</h1>
       <h1>
         Name : {data.firstname} {data.lastname}
       </h1>

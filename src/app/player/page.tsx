@@ -9,8 +9,8 @@ function Player() {
 
   const fetch = async () => {
     try {
-      const response = await axios.post(
-        "http://localhost:8000/api/user/get/user"
+      const response = await axios.get(
+        "http://localhost:8000/api/user"
       );
       console.log("API Response:", response.data);
       setData(response.data.data);

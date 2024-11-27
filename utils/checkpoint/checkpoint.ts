@@ -1,4 +1,4 @@
-interface Checkpoint {
+export interface Checkpoint {
     id: string;
     name: string;
     maxScore: number;

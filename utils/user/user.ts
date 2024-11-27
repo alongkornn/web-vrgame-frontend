@@ -1,3 +1,5 @@
+import { Checkpoint } from "../checkpoint/checkpoint";
+
 export interface User {
     id: string;
     firstname: string;
@@ -7,6 +9,6 @@ export interface User {
     class: string;
     number: string;
     score: number;
-    currentCheckpoint: Checkpoint;
+    currentCheckpoint: Checkpoint | null;
     completedCheckpoint: Checkpoint[];
   }
