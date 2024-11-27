@@ -11,4 +11,16 @@ export interface User {
     score: number;
     currentCheckpoint?: Checkpoint;
     completedCheckpoint: Checkpoint[];
-  }
+}
+  
+export const DefaultUser: User = {
+  id: "",
+  firstname: "",
+  lastname: "",
+  email: "",
+  password: "",
+  class: "",
+  number: "",
+  score: 0,
+  completedCheckpoint: [],
+};

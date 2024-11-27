@@ -1,29 +1,21 @@
 "use client";
-import { useState, useEffect } from "react";
 
 import axios from "axios";
-import { User } from "../../../../utils/user/user";
+import { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
 
-function Player() {
-  const params = useParams() as Record<string, string | undefined>;
-  const id = params.id as string;
+import { User, DefaultUser } from "../../../../utils/user/user";
+import { getId } from "../../../../utils/params/params";
+import { API_URL } from "../../../../utils/api-url/api.url";
 
-  const [data, setData] = useState<User>({
-    id: "",
-    firstname: "",
-    lastname: "",
-    email: "",
-    password: "",
-    class: "",
-    number: "",
-    score: 0,
-    completedCheckpoint: []
-  });
+function Player() {
+  const id = getId();
+
+  const [data, setData] = useState<User>(DefaultUser);
 
   const getUserByID = async (id: string) => {
     try {
-      const response = await axios.get(`http://localhost:8000/api/user/${id}`);
+      const response = await axios.get(`${API_URL}/user/${id}`);
 
       setData(response.data.data); // fix data.map() is not a function
     } catch (error) {
@@ -32,8 +24,13 @@ function Player() {
   };
 
   useEffect(() => {
+    if (!id) {
+      console.error("Invalid in missing ID");
+      return;
+    }
+
     getUserByID(id);
-  }, []);
+  }, [id]);
 
   return (
     <div className="text-center my-20">
