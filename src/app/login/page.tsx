@@ -2,25 +2,27 @@
 
 import axios from "axios";
 import { useState } from "react";
+import { API_URL } from "../../../utils/api-url/api.url";
+import { useRouter } from "next/router";
 
-export default function LoginPage() {
+export default function Page() {
   const [data, setData] = useState({});
+  const router = useRouter();
 
   const handleChange = (e: any) => {
     setData({ ...data, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async () => {
-    const response = await axios.post(
-      "http://localhost:8000/api/auth/login",
-      data
-    );
-
-    if (response.data.status !== "success") {
+    try {
+      const response = await axios.post(`${API_URL}/auth/login`, data);
+      if (response.status === 200) {
+        alert(response.data.message);
+        router.push("/home"); // Redirect ไปหน้า /home
+      }
+    } catch (error) {
       await alert("Fail to login");
     }
-
-    await alert(response.data.message);
   };
 
   return (
