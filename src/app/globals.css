@@ -2,3 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
+body {
+    background-color: black;
+    height: 2000px;
+}

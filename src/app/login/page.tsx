@@ -3,7 +3,7 @@
 import axios from "axios";
 import { useState } from "react";
 import { API_URL } from "../../../utils/api-url/api.url";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 export default function Page() {
   const [data, setData] = useState({});
@@ -26,9 +26,9 @@ export default function Page() {
   };
 
   return (
-    <>
+    <div className="text-white">
       <form>
-        <label htmlFor="">Email</label>
+        <span>Email</span>
         <input
           type="text"
           name="email"
@@ -45,6 +45,6 @@ export default function Page() {
         />
       </form>
       <button onClick={handleSubmit}>Login</button>
-    </>
+    </div>
   );
 }
