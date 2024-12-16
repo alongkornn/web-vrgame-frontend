@@ -1,13 +1,83 @@
 "use client";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 
 interface Props {
   page: string;
 }
 
 function Nav({ page }: Props) {
-  const [isLogin, setIsLogin] = useState<boolean>(false);
+  const [isLogin, setIsLogin] = useState<boolean>();
+  const [username, setUsername] = useState<string>("");
+  const [dropdownOpen, setDropdownOpen] = useState<boolean>(false);
+  const dropdownRef = useRef<HTMLDivElement | null>(null); // ใช้ ref เพื่อเช็คการคลิกภายนอก
+  const userMenuRef = useRef<HTMLDivElement | null>(null); // ใช้ ref สำหรับชื่อผู้ใช้และไอคอน
+
+  useEffect(() => {
+    const token = getCookie("token");
+    if (token) {
+      const decodedToken = decodeJWT(token);
+      if (decodedToken) {
+        setUsername(decodedToken.username); // ดึง username จาก token
+        setIsLogin(true); // ผู้ใช้ล็อกอินแล้ว
+      }
+    } else {
+      setIsLogin(false); // ผู้ใช้ยังไม่ได้ล็อกอิน
+    }
+
+    // ฟังก์ชันสำหรับการตรวจจับคลิกภายนอกเมนู dropdown
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node) &&
+        userMenuRef.current &&
+        !userMenuRef.current.contains(event.target as Node)
+      ) {
+        setDropdownOpen(false); // ปิดเมนูถ้าคลิกนอกเมนู
+      }
+    };
+
+    // ฟังการคลิกภายนอกเมื่อ dropdown เปิด
+    if (dropdownOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside); // ลบ event listener เมื่อ component unmount
+    };
+  }, [dropdownOpen]);
+
+  const getCookie = (name: string): string | undefined => {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) {
+      return parts.pop()?.split(";").shift();
+    }
+    return undefined;
+  };
+
+  const decodeJWT = (token: string): any => {
+    const base64Url = token.split(".")[1];
+    const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+    const jsonPayload = decodeURIComponent(
+      atob(base64)
+        .split("")
+        .map(function (c) {
+          return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
+        })
+        .join("")
+    );
+    return JSON.parse(jsonPayload);
+  };
+
+  const handleLogout = () => {
+    document.cookie = "token=; Max-Age=0; path=/"; // ลบ cookie
+    setIsLogin(false);
+    setUsername("");
+  };
 
   return (
     <div className="flex items-center justify-between text-white text-20 my-8 px-8">
@@ -47,12 +117,47 @@ function Nav({ page }: Props) {
           RULES
         </Link>
         <div>
-          {isLogin == false ? (
+          {isLogin ? (
+            <div className="flex items-center">
+              <h1
+                className=" cursor-pointer bg-white text-black rounded-md shadow-lg py-2 px-3"
+                style={{
+                  marginRight: "0.5rem",
+                  userSelect: "none"
+                }}
+                onClick={() => setDropdownOpen(!dropdownOpen)}
+              >
+                {username}
+              </h1>
+              {dropdownOpen && (
+                <div
+                  className="absolute bg-white text-black rounded-md shadow-lg py-2"
+                  style={{
+                    zIndex: 10,
+                    marginTop: "7.3rem",
+                    marginRight: "10rem",
+                    paddingRight: "0.99rem",
+                    userSelect: "none"
+                  }}
+                >
+                  <ul className="">
+                    <li className="hover:bg-[#BCBCC6] hover:text-white cursor-pointer px-4 py-2">
+                      <Link href="#">Profile</Link>
+                    </li>
+                    <li
+                      className="px-4 py-2 hover:bg-[#BCBCC6] hover:text-white cursor-pointer"
+                      onClick={handleLogout} // เมื่อคลิก logout, ลบ token
+                    >
+                      Logout
+                    </li>
+                  </ul>
+                </div>
+              )}
+            </div>
+          ) : (
             <button className="bg-[#C8F321] text-black rounded-[20px] px-6 py-2 flex items-center justify-center">
               <Link href="/login">LOGIN</Link>
             </button>
-          ) : (
-            <h1 className="hover:text-[#C8F321] cursor-pointer">PROFILE</h1>
           )}
         </div>
       </div>

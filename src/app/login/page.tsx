@@ -18,7 +18,10 @@ export default function Page() {
     try {
       const response = await axios.post(
         `http://localhost:8000/api/auth/login`,
-        data
+        data,
+        {
+          withCredentials: true // เปิดการส่งคุกกี้
+        }
       );
       if (response.status === 200) {
         alert(response.data.message);
@@ -35,7 +38,7 @@ export default function Page() {
         className="text-center bg-white text-[#000] rounded-[20px]"
         style={{
           width: "500px",
-          height: "420px",
+          height: "420px"
         }}
       >
         <h1 className="text-[32px] mt-5 font-bold">Sign in</h1>
@@ -48,7 +51,7 @@ export default function Page() {
             onChange={(e) => handleChange(e)}
             className="p-2 ml-7 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             style={{
-              width: "300px",
+              width: "300px"
             }}
           />
           <br />
@@ -61,7 +64,7 @@ export default function Page() {
             onChange={(e) => handleChange(e)}
             className="p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             style={{
-              width: "300px",
+              width: "300px"
             }}
           />
         </form>
