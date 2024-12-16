@@ -1,5 +1,4 @@
 "use client";
-import { Button } from "@mui/material";
 import Link from "next/link";
 import React, { useState } from "react";
 
@@ -29,7 +28,7 @@ function Nav({ page }: Props) {
             page === "player" ? "text-[#C8F321]" : ""
           }`}
         >
-          PLAYER
+          RANK
         </Link>
         <Link
           href="/"
@@ -37,7 +36,7 @@ function Nav({ page }: Props) {
             page === "rank" ? "text-[#C8F321]" : ""
           }`}
         >
-          RANK
+          CHECKPOINT
         </Link>
         <Link
           href="/manage"
@@ -45,7 +44,7 @@ function Nav({ page }: Props) {
             page === "manage" ? "text-[#C8F321]" : ""
           }`}
         >
-          MANAGE PLAYER
+          RULES
         </Link>
         <div>
           {isLogin == false ? (
