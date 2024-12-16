@@ -120,27 +120,32 @@ function Nav({ page }: Props) {
           {isLogin ? (
             <div className="flex items-center">
               <h1
-                className=" cursor-pointer bg-white text-black rounded-md shadow-lg py-2 px-3"
+                className=" cursor-pointer bg-[#F34822] text-white text-[19px] font-bold shadow-lg py-0.5"
                 style={{
-                  marginRight: "0.5rem",
-                  userSelect: "none"
+                  marginRight: "5rem",
+                  marginTop: "0.3rem",
+                  userSelect: "none",
+                  borderRadius: "50px",
+                  paddingLeft: "0.7rem",
+                  width: 35,
+                  height: 35
                 }}
                 onClick={() => setDropdownOpen(!dropdownOpen)}
               >
-                {username}
+                {username[0].toUpperCase()}
               </h1>
               {dropdownOpen && (
                 <div
                   className="absolute bg-white text-black rounded-md shadow-lg py-2"
                   style={{
                     zIndex: 10,
-                    marginTop: "7.3rem",
-                    marginRight: "10rem",
+                    marginTop: "9rem",
+                    marginRight: "15rem",
                     paddingRight: "0.99rem",
                     userSelect: "none"
                   }}
                 >
-                  <ul className="">
+                  <ul>
                     <li className="hover:bg-[#BCBCC6] hover:text-white cursor-pointer px-4 py-2">
                       <Link href="#">Profile</Link>
                     </li>
