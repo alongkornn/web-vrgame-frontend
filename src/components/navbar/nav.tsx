@@ -23,9 +23,9 @@ function Nav({ page }: Props) {
           HOME
         </Link>
         <Link
-          href="/player"
+          href="/rank"
           className={`home hover:text-[#C8F321] ${
-            page === "player" ? "text-[#C8F321]" : ""
+            page === "rank" ? "text-[#C8F321]" : ""
           }`}
         >
           RANK
@@ -33,15 +33,15 @@ function Nav({ page }: Props) {
         <Link
           href="/"
           className={`home hover:text-[#C8F321] ${
-            page === "rank" ? "text-[#C8F321]" : ""
+            page === "checkpoint" ? "text-[#C8F321]" : ""
           }`}
         >
           CHECKPOINT
         </Link>
         <Link
-          href="/manage"
+          href="/rules"
           className={`home hover:text-[#C8F321] ${
-            page === "manage" ? "text-[#C8F321]" : ""
+            page === "rules" ? "text-[#C8F321]" : ""
           }`}
         >
           RULES

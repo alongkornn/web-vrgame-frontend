@@ -32,7 +32,7 @@ export default function Page() {
   return (
     <div className="flex items-center justify-center min-h-screen">
       <div
-        className="text-white text-center bg-white text-[#000] rounded-[20px]"
+        className="text-center bg-white text-[#000] rounded-[20px]"
         style={{
           width: "500px",
           height: "420px",
