@@ -9,21 +9,34 @@ import { useRouter } from "next/navigation";
 
 function Rank() {
   const [users, setUsers] = useState<User[]>([]);
-  let score;
   const router = useRouter();
 
   useEffect(() => {
     const token = getCookie("token");
     if (!token) {
       router.push("/login");
+      return;
     }
-    getUsers();
-  }, [router]);
 
-  const getUsers = async () => {
-    const response = await axios.get("http://localhost:8000/api/user");
-    setUsers(response.data.data);
-  };
+    const protectRoute = async () => {
+      try {
+        const response = await axios.get("http://localhost:8000/api/user", {
+          withCredentials: true
+        });
+
+        if (response.status == 200) {
+          setUsers(response.data.data);
+        } else {
+          return router.push("/login");
+        }
+      } catch (error) {
+        console.error("Error during API request:", error);
+        router.push("/login");
+      }
+    };
+
+    protectRoute();
+  }, [router]);
 
   return (
     <div className="text-white">
