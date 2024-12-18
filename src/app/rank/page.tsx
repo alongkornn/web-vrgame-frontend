@@ -4,21 +4,26 @@ import Nav from "@/components/navbar/nav";
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { User } from "../../../utils/user/user";
+import { getCookie } from "../../../utils/jwt/getCookie";
+import { useRouter } from "next/navigation";
 
 function Rank() {
   const [users, setUsers] = useState<User[]>([]);
   let score;
+  const router = useRouter();
 
   useEffect(() => {
+    const token = getCookie("token");
+    if (!token) {
+      router.push("/login");
+    }
     getUsers();
-  }, []);
+  }, [router]);
 
   const getUsers = async () => {
     const response = await axios.get("http://localhost:8000/api/user");
     setUsers(response.data.data);
   };
-
-  console.log(users);
 
   return (
     <div className="text-white">
@@ -63,3 +68,6 @@ function Rank() {
 }
 
 export default Rank;
+function decodeJWT(token: string) {
+  throw new Error("Function not implemented.");
+}

@@ -36,7 +36,7 @@ export default function Page() {
         className="text-center bg-white rounded-[20px] text-[#000]"
         style={{
           width: "500px",
-          height: "620px"
+          height: "480px"
         }}
       >
         <h1 className="text-[32px] mt-5 font-bold">Sign up</h1>
@@ -91,35 +91,6 @@ export default function Page() {
             placeholder="Password"
             onChange={(e) => handleChange(e)}
             className="p-2 ml-6 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            style={{
-              width: "300px"
-            }}
-          />
-          <br />
-          <br />
-
-          <span className="mr-3 font-bold">Class</span>
-          <input
-            type="text"
-            name="class"
-            placeholder="Class"
-            onChange={(e) => handleChange(e)}
-            className="p-2  border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            style={{
-              width: "300px",
-              marginLeft: "3.5rem"
-            }}
-          />
-          <br />
-          <br />
-
-          <span className="mr-3 font-bold">Number</span>
-          <input
-            type="text"
-            name="number"
-            placeholder="Number"
-            onChange={(e) => handleChange(e)}
-            className="p-2 ml-8 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             style={{
               width: "300px"
             }}

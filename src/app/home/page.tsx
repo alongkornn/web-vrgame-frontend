@@ -19,12 +19,10 @@ function HomePage() {
           {/* Left Section: Text */}
           <div className="flex-1">
             <h1 className="font-bold text-[56px] mt-[180px]">
-              Welcome to the VR Game for Enhancing
+              ยินดีต้อนรับเข้าสู่เกมวีอาร์เพื่อเสริมความรู้ทางด้านฟิสิกส์สำหรับ
             </h1>
-            <h1 className="text-[56px]">Knowledge in Physics</h1>
-            <p className="text-[24px] text-[#BCBCC6]">
-              Developed by the Project Team
-            </p>
+            <h1 className="text-[56px]">มัธยมศึกษาตอนปลาย</h1>
+            
             <button
               onClick={handleScrollWindow}
               className="bg-[#ffff] text-black text-[20px] rounded-[20px] px-4 py-2 mt-[90px]"

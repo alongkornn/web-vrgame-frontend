@@ -38,7 +38,7 @@ export default function Page() {
         className="text-center bg-white text-[#000] rounded-[20px]"
         style={{
           width: "500px",
-          height: "420px"
+          height: "380px"
         }}
       >
         <h1 className="text-[32px] mt-5 font-bold">Sign in</h1>

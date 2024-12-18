@@ -2,6 +2,9 @@
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Link from "next/link";
 import React, { useEffect, useState, useRef } from "react";
+import { getCookie } from "../../../utils/jwt/getCookie";
+import { useRouter } from "next/navigation";
+import { decodeJWT } from "../../../utils/jwt/decodeJWT";
 
 interface Props {
   page: string;
@@ -11,8 +14,7 @@ function Nav({ page }: Props) {
   const [isLogin, setIsLogin] = useState<boolean>();
   const [username, setUsername] = useState<string>("");
   const [dropdownOpen, setDropdownOpen] = useState<boolean>(false);
-  const dropdownRef = useRef<HTMLDivElement | null>(null); // ใช้ ref เพื่อเช็คการคลิกภายนอก
-  const userMenuRef = useRef<HTMLDivElement | null>(null); // ใช้ ref สำหรับชื่อผู้ใช้และไอคอน
+  const router = useRouter();
 
   useEffect(() => {
     const token = getCookie("token");
@@ -25,72 +27,29 @@ function Nav({ page }: Props) {
     } else {
       setIsLogin(false); // ผู้ใช้ยังไม่ได้ล็อกอิน
     }
-
-    // ฟังก์ชันสำหรับการตรวจจับคลิกภายนอกเมนู dropdown
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target as Node) &&
-        userMenuRef.current &&
-        !userMenuRef.current.contains(event.target as Node)
-      ) {
-        setDropdownOpen(false); // ปิดเมนูถ้าคลิกนอกเมนู
-      }
-    };
-
-    // ฟังการคลิกภายนอกเมื่อ dropdown เปิด
-    if (dropdownOpen) {
-      document.addEventListener("mousedown", handleClickOutside);
-    } else {
-      document.removeEventListener("mousedown", handleClickOutside);
-    }
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside); // ลบ event listener เมื่อ component unmount
-    };
-  }, [dropdownOpen]);
-
-  const getCookie = (name: string): string | undefined => {
-    const value = `; ${document.cookie}`;
-    const parts = value.split(`; ${name}=`);
-    if (parts.length === 2) {
-      return parts.pop()?.split(";").shift();
-    }
-    return undefined;
-  };
-
-  const decodeJWT = (token: string): any => {
-    const base64Url = token.split(".")[1];
-    const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
-    const jsonPayload = decodeURIComponent(
-      atob(base64)
-        .split("")
-        .map(function (c) {
-          return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
-        })
-        .join("")
-    );
-    return JSON.parse(jsonPayload);
-  };
+  }, []);
 
   const handleLogout = () => {
     document.cookie = "token=; Max-Age=0; path=/"; // ลบ cookie
     setIsLogin(false);
     setUsername("");
+    if (page != "home" && page != "checkpoints" && page != "rule") {
+      router.push("/login");
+    }
   };
 
   return (
-    <div className="flex items-center justify-between text-white text-20 my-8 px-8">
+    <div className="flex items-center justify-between text-white text-20">
       <h1 className="font-bold text-[40px]">Logo</h1>
 
-      <div className="flex items-center space-x-20 text-[16px] font-bold">
+      <div className="flex items-center space-x-20 text-[18px] font-bold">
         <Link
           href="/home"
           className={`home hover:text-[#C8F321] ${
             page === "home" ? "text-[#C8F321]" : ""
           }`}
         >
-          HOME
+          หน้าหลัก
         </Link>
         <Link
           href="/rank"
@@ -98,15 +57,15 @@ function Nav({ page }: Props) {
             page === "rank" ? "text-[#C8F321]" : ""
           }`}
         >
-          RANK
+          แรงค์
         </Link>
         <Link
-          href="/"
+          href="/checkpoints"
           className={`home hover:text-[#C8F321] ${
             page === "checkpoint" ? "text-[#C8F321]" : ""
           }`}
         >
-          CHECKPOINT
+          ด่าน
         </Link>
         <Link
           href="/rules"
@@ -114,46 +73,43 @@ function Nav({ page }: Props) {
             page === "rules" ? "text-[#C8F321]" : ""
           }`}
         >
-          RULES
+          กฏการเล่น
         </Link>
         <div>
           {isLogin ? (
             <div className="flex items-center">
               <h1
-                className=" cursor-pointer bg-[#F34822] text-white text-[19px] font-bold shadow-lg py-0.5"
+                className="text-white cursor-pointer"
                 style={{
-                  marginRight: "5rem",
-                  marginTop: "0.3rem",
                   userSelect: "none",
-                  borderRadius: "50px",
-                  paddingLeft: "0.7rem",
-                  width: 35,
-                  height: 35
+                  marginRight: "1rem"
                 }}
                 onClick={() => setDropdownOpen(!dropdownOpen)}
               >
-                {username[0].toUpperCase()}
+                {username.toUpperCase()}
               </h1>
               {dropdownOpen && (
                 <div
-                  className="absolute bg-white text-black rounded-md shadow-lg py-2"
+                  className="absolute bg-white text-black rounded-md"
                   style={{
                     zIndex: 10,
-                    marginTop: "9rem",
-                    marginRight: "15rem",
-                    paddingRight: "0.99rem",
-                    userSelect: "none"
+                    marginTop: "8.2rem",
+                    right: "1rem",
+                    paddingTop: "0.5rem",
+                    userSelect: "none",
+                    width: "9.4rem",
+                    textAlign: "center"
                   }}
                 >
                   <ul>
-                    <li className="hover:bg-[#BCBCC6] hover:text-white cursor-pointer px-4 py-2">
-                      <Link href="#">Profile</Link>
+                    <li className="cursor-pointer px-4 py-2">
+                      <Link href="#">โปรไฟล์</Link>
                     </li>
                     <li
-                      className="px-4 py-2 hover:bg-[#BCBCC6] hover:text-white cursor-pointer"
+                      className="px-4 py-2 cursor-pointer"
                       onClick={handleLogout} // เมื่อคลิก logout, ลบ token
                     >
-                      Logout
+                      ออกจากระบบ
                     </li>
                   </ul>
                 </div>
@@ -161,7 +117,7 @@ function Nav({ page }: Props) {
             </div>
           ) : (
             <button className="bg-[#C8F321] text-black rounded-[20px] px-6 py-2 flex items-center justify-center">
-              <Link href="/login">LOGIN</Link>
+              <Link href="/login">เข้าสู่ระบบ</Link>
             </button>
           )}
         </div>
