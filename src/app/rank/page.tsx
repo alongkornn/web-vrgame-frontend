@@ -27,7 +27,6 @@ function Rank() {
 
   return (
     <div className="text-white">
-      <Nav page="rank" />
       <h1 className="text-center mt-5 mb-5 text-[56px] font-bold">
         Score in VR Game
       </h1>

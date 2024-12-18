@@ -5,7 +5,6 @@ import React from "react";
 const ManageUser = () => {
   return (
     <div className="text-white font-bold">
-      <Nav page="manage" />
       <h1>ManageUser</h1>
     </div>
   );

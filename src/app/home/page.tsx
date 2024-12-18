@@ -13,7 +13,6 @@ function HomePage() {
 
   return (
     <div>
-      <Nav page="home"/>
       <div className="text-white font-bold">
         <div className="flex items-center justify-between ml-[150px]">
           {/* Left Section: Text */}

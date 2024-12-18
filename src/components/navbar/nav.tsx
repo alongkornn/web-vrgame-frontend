@@ -1,39 +1,61 @@
 "use client";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Link from "next/link";
 import React, { useEffect, useState, useRef } from "react";
 import { getCookie } from "../../../utils/jwt/getCookie";
-import { useRouter } from "next/navigation";
-import { decodeJWT } from "../../../utils/jwt/decodeJWT";
+import { decodeJWT } from "../../../utils/jwt/decodejwt";
+import { usePathname, useRouter } from "next/navigation";
 
-interface Props {
-  page: string;
-}
+function Nav() {
+  const router = useRouter();
+  const currentPathName = usePathname();
 
-function Nav({ page }: Props) {
-  const [isLogin, setIsLogin] = useState<boolean>();
+  const [isLogin, setIsLogin] = useState<boolean>(false);
   const [username, setUsername] = useState<string>("");
   const [dropdownOpen, setDropdownOpen] = useState<boolean>(false);
-  const router = useRouter();
+  const dropdownRef = useRef<HTMLDivElement>(null);
+  const usernameRef = useRef<HTMLHeadingElement>(null);
 
   useEffect(() => {
-    const token = getCookie("token");
-    if (token) {
-      const decodedToken = decodeJWT(token);
-      if (decodedToken) {
-        setUsername(decodedToken.username); // ดึง username จาก token
-        setIsLogin(true); // ผู้ใช้ล็อกอินแล้ว
+    if (typeof window !== "undefined") {
+      const token = getCookie("token");
+      if (token) {
+        const decodedToken = decodeJWT(token);
+        if (decodedToken) {
+          setUsername(decodedToken.username);
+          setIsLogin(true);
+        }
+      } else {
+        setIsLogin(false);
       }
-    } else {
-      setIsLogin(false); // ผู้ใช้ยังไม่ได้ล็อกอิน
     }
+  }, [currentPathName]);
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (
+        dropdownRef.current &&
+        usernameRef.current &&
+        !dropdownRef.current.contains(event.target as Node) &&
+        !usernameRef.current.contains(event.target as Node)
+      ) {
+        setDropdownOpen(false);
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
   }, []);
 
   const handleLogout = () => {
-    document.cookie = "token=; Max-Age=0; path=/"; // ลบ cookie
+    document.cookie = "token=; Max-Age=0; path=/";
     setIsLogin(false);
     setUsername("");
-    if (page != "home" && page != "checkpoints" && page != "rule") {
+
+    const protectedPages = ["/home", "/checkpoints", "/rule"];
+    if (!protectedPages.includes(currentPathName)) {
       router.push("/login");
     }
   };
@@ -46,7 +68,7 @@ function Nav({ page }: Props) {
         <Link
           href="/home"
           className={`home hover:text-[#C8F321] ${
-            page === "home" ? "text-[#C8F321]" : ""
+            currentPathName === "/home" ? "text-[#C8F321]" : ""
           }`}
         >
           หน้าหลัก
@@ -54,7 +76,7 @@ function Nav({ page }: Props) {
         <Link
           href="/rank"
           className={`home hover:text-[#C8F321] ${
-            page === "rank" ? "text-[#C8F321]" : ""
+            currentPathName === "/rank" ? "text-[#C8F321]" : ""
           }`}
         >
           แรงค์
@@ -62,15 +84,15 @@ function Nav({ page }: Props) {
         <Link
           href="/checkpoints"
           className={`home hover:text-[#C8F321] ${
-            page === "checkpoint" ? "text-[#C8F321]" : ""
+            currentPathName === "/checkpoints" ? "text-[#C8F321]" : ""
           }`}
         >
           ด่าน
         </Link>
         <Link
-          href="/rules"
+          href="/rule"
           className={`home hover:text-[#C8F321] ${
-            page === "rules" ? "text-[#C8F321]" : ""
+            currentPathName === "/rule" ? "text-[#C8F321]" : ""
           }`}
         >
           กฏการเล่น
@@ -79,6 +101,7 @@ function Nav({ page }: Props) {
           {isLogin ? (
             <div className="flex items-center">
               <h1
+                ref={usernameRef}
                 className="text-white cursor-pointer"
                 style={{
                   userSelect: "none",
@@ -90,6 +113,7 @@ function Nav({ page }: Props) {
               </h1>
               {dropdownOpen && (
                 <div
+                  ref={dropdownRef}
                   className="absolute bg-white text-black rounded-md"
                   style={{
                     zIndex: 10,
@@ -103,11 +127,11 @@ function Nav({ page }: Props) {
                 >
                   <ul>
                     <li className="cursor-pointer px-4 py-2">
-                      <Link href="#">โปรไฟล์</Link>
+                      <Link href="/profile">โปรไฟล์</Link>
                     </li>
                     <li
                       className="px-4 py-2 cursor-pointer"
-                      onClick={handleLogout} // เมื่อคลิก logout, ลบ token
+                      onClick={handleLogout}
                     >
                       ออกจากระบบ
                     </li>
