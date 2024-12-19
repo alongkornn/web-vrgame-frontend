@@ -12,7 +12,11 @@ function HomePage() {
   };
 
   return (
-    <div>
+    <div
+      style={{
+        height: "2000px"
+      }}
+    >
       <div className="text-white font-bold">
         <div className="flex items-center justify-between ml-[150px]">
           {/* Left Section: Text */}
@@ -21,7 +25,7 @@ function HomePage() {
               ยินดีต้อนรับเข้าสู่เกมวีอาร์เพื่อเสริมความรู้ทางด้านฟิสิกส์สำหรับ
             </h1>
             <h1 className="text-[56px]">มัธยมศึกษาตอนปลาย</h1>
-            
+
             <button
               onClick={handleScrollWindow}
               className="bg-[#ffff] text-black text-[20px] rounded-[20px] px-4 py-2 mt-[90px]"
