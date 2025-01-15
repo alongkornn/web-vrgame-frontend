@@ -2,7 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
+:root {
+    --font-roboto: "Roboto", sans-serif;
+  }
+  
+  body {
+    font-family: var(--font-roboto);
     background-color: black;
     margin: 1rem;
-}
+  }

@@ -28,9 +28,9 @@ function HomePage() {
 
             <button
               onClick={handleScrollWindow}
-              className="bg-[#ffff] text-black text-[20px] rounded-[20px] px-4 py-2 mt-[90px]"
+              className="bg-[#ffff] text-black text-bold text-[20px] rounded-[20px] px-4 py-2 mt-[90px]"
             >
-              LEARN MORE
+              เรียนรู้เพิ่มเติม
             </button>
           </div>
 
@@ -40,15 +40,15 @@ function HomePage() {
               src="/vr.svg"
               alt="VR"
               style={{
-                width: "1500px", // ขนาดที่ต้องการ
+                width: "1500px", 
                 height: "auto",
-                objectFit: "contain" // ให้รูปไม่ยืดหรือเบี้ยว
+                objectFit: "contain"
               }}
             />
           </div>
         </div>
       </div>
-      <div className="content text-white mt-[320px]">
+      <div className="content text-white mt-[360px]">
         <h1>Content</h1>
       </div>
     </div>
