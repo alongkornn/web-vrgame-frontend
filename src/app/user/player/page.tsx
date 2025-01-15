@@ -3,8 +3,8 @@ import axios from "axios";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 
-import { User } from "../../../utils/user/user";
-import { API_URL } from "../../../utils/api-url/api.url";
+import { User } from "../../../../utils/user/user";
+import { API_URL } from "../../../../utils/api-url/api.url";
 
 function Player() {
   const [data, setData] = useState<User[]>([]);
@@ -28,7 +28,7 @@ function Player() {
       <div className="text-center my-20 ">
         {data.map((item, index) => (
           <div key={index}>
-            <Link href={`/player/${item.id}`} className="text-2xl my-10">
+            <Link href={`/user/player/${item.id}`} className="text-2xl my-10">
               {item.firstname} {item.lastname}
             </Link>
           </div>

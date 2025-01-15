@@ -7,7 +7,6 @@ export interface User {
     email: string;
     password: string;
     score: number;
-    level: number;
     currentCheckpoint?: Checkpoint;
     completedCheckpoint: Checkpoint[];
 }
@@ -19,7 +18,6 @@ export const DefaultUser: User = {
   email: "",
   password: "",
   score: 0,
-  level: 1,
   currentCheckpoint: {
     id: "1",
     name: "",

@@ -4,9 +4,9 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
 
-import { User, DefaultUser } from "../../../../utils/user/user";
-import { getId } from "../../../../utils/params/params";
-import { API_URL } from "../../../../utils/api-url/api.url";
+import { User, DefaultUser } from "../../../../../utils/user/user";
+import { getId } from "../../../../../utils/params/params";
+import { API_URL } from "../../../../../utils/api-url/api.url";
 
 function Player() {
   const id = getId();

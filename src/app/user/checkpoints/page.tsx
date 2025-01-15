@@ -8,9 +8,9 @@ const Checkpoints = () => {
 
   // รายการหมวดหมู่
   const categories = [
-    { name: "โพรเจคไทล์", redirectTo: "/checkpoints/projectile" },
-    { name: "โมเมนตัมและการชน", redirectTo: "/checkpoints/momentum" },
-    { name: "แรงและกฎการเคลื่อน", redirectTo: "/checkpoints/force" }
+    { name: "โพรเจคไทล์", redirectTo: "/user/checkpoints/projectile" },
+    { name: "โมเมนตัมและการชน", redirectTo: "/user/checkpoints/momentum" },
+    { name: "แรงและกฎการเคลื่อน", redirectTo: "/user/checkpoints/force" }
   ];
 
   // ฟังก์ชันสำหรับการเปลี่ยนหน้า

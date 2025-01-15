@@ -2,10 +2,10 @@
 
 import axios from "axios";
 import React, { useState, useEffect } from "react";
-import { User } from "../../../utils/user/user";
-import { getCookie } from "../../../utils/jwt/getCookie";
+import { User } from "../../../../utils/user/user";
+import { getCookie } from "../../../../utils/jwt/getCookie";
 import { useRouter } from "next/navigation";
-import { decodeJWT } from "../../../utils/jwt/decodejwt";
+import { decodeJWT } from "../../../../utils/jwt/decodejwt";
 
 function Rank() {
   const [users, setUsers] = useState<User[]>([]);
@@ -87,7 +87,7 @@ function Rank() {
                   className="flex justify-between font-bold text-[20px] mb-3"
                 >
                   <h1 className="ml-5">
-                    {index + 1}.{item.firstname} {" "} {item.lastname}
+                    {index + 1}.{item.firstname} {item.lastname}
                   </h1>
 
                   <h1

@@ -1,7 +1,7 @@
 import React from "react";
 
 const Rule = () => {
-  return <div>Rule</div>;
+  return <div className="text-white">Rule</div>;
 };
 
 export default Rule;

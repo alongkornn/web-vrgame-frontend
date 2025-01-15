@@ -25,7 +25,7 @@ export default function Page() {
       );
       if (response.status === 200) {
         alert(response.data.message);
-        router.push("/home"); // Redirect ไปหน้า /home
+        router.push("/user/home"); // Redirect ไปหน้า /home
       }
     } catch (error) {
       await alert("Fail to login");
@@ -78,7 +78,7 @@ export default function Page() {
 
         <p className="font-bold">
           Don't have an account?{" "}
-          <Link className="text-[#4282DA]" href="/register">
+          <Link className="text-[#4282DA]" href="/user/register">
             Create account
           </Link>
         </p>

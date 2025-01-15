@@ -1,14 +1,15 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { getCookie } from "../../../utils/jwt/getCookie";
+import { getCookie } from "../../../../utils/jwt/getCookie";
 import { useRouter } from "next/navigation";
 import axios from "axios";
-import { decodeJWT } from "../../../utils/jwt/decodejwt";
-import { DefaultUser, User } from "../../../utils/user/user";
+import { decodeJWT } from "../../../../utils/jwt/decodejwt";
+import { DefaultUser, User } from "../../../../utils/user/user";
 
 const Profile = () => {
   const [user, setUser] = useState<User>(DefaultUser);
+  const [checkpoint, setCheckpoint] = useState({});
   const router = useRouter();
 
   useEffect(() => {
@@ -31,17 +32,40 @@ const Profile = () => {
 
         if (response.status === 200) {
           setUser(response.data.data);
+          getCheckpointByID();
         } else {
           router.push("/login");
         }
       } catch (error) {
-        console.error("Error during API request:", error);
+        if (axios.isAxiosError(error)) {
+          console.error("API Error:", error.response?.data || error.message);
+        } else {
+          console.error("Unknown Error:", error);
+        }
         router.push("/login");
       }
     };
 
     getUser();
   }, [router]);
+
+  const getCheckpointByID = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:8000/api/checkpoint/current/${user.id}`
+      );
+
+      if (response.status === 200) {
+        setCheckpoint(response.data.data);
+      } else {
+        return response.data.message;
+      }
+
+      console.log(checkpoint);
+    } catch (error) {
+      return console.log(error);
+    }
+  };
 
   return (
     <div className="flex flex-col items-center text-white font-bold mt-10">
@@ -56,44 +80,31 @@ const Profile = () => {
           <h1 className="mt-4 text-2xl">
             {user.firstname.toUpperCase()} {user.lastname.toUpperCase()}
           </h1>
-          <p className="text-gray-400 text-sm mt-2">
-            {"Always playing strategy games..."}
-          </p>
-          <p className="mt-3 text-[#BCBCC6]">LEVEL {user.level}</p>
-          <div className="w-full max-w-md mt-3 bg-gray-700 rounded-full h-4">
-            <div
-              className="bg-yellow-400 h-4 rounded-full"
-              style={{ width: "30px" }}
-            ></div>
-          </div>
-          <p className="text-sm text-gray-400 mt-2">
-            {370} XP until level {user.level + 1}
-          </p>
         </div>
       </div>
 
       {/* Achievements */}
       <div className="mt-8 w-full max-w-lg">
-        <h2 className="text-xl mb-4">Achievements</h2>
+        <h2 className="text-xl mb-4">รายละเอียด</h2>
         <div className="grid grid-cols-2 gap-4">
           <div className="flex flex-col items-center p-4 bg-gray-800 rounded-lg">
-            <span className="text-red-500 text-2xl">🔥</span>
-            <p className="text-gray-400 mt-2">Day Streak</p>
+            {/* <span className="text-red-500 text-2xl">🔥</span> */}
+            <p className="text-gray-400 mt-2 mb-2">คะแนน</p>
+            <p>{user.score ? user.score : "0"}</p>
+          </div>
+          <div className="flex flex-col items-center p-4 bg-gray-800 rounded-lg">
+            {/* <span className="text-yellow-500 text-2xl">🏆</span> */}
+            <p className="text-gray-400 mt-2 mb-2">จำนวนชนะ</p>
             <p>{0}</p>
           </div>
           <div className="flex flex-col items-center p-4 bg-gray-800 rounded-lg">
-            <span className="text-yellow-500 text-2xl">🏆</span>
-            <p className="text-gray-400 mt-2">Total Wins</p>
-            <p>{0}</p>
+            {/* <span className="text-blue-500 text-2xl">💎</span> */}
+            <p className="text-gray-400 mt-2 mb-2">ด่านปัจจุบัน</p>
+            <p>ด่านหนึ่ง</p>
           </div>
           <div className="flex flex-col items-center p-4 bg-gray-800 rounded-lg">
-            <span className="text-blue-500 text-2xl">💎</span>
-            <p className="text-gray-400 mt-2">Current Tier</p>
-            <p>{"Bronze"}</p>
-          </div>
-          <div className="flex flex-col items-center p-4 bg-gray-800 rounded-lg">
-            <span className="text-green-500 text-2xl">💰</span>
-            <p className="text-gray-400 mt-2">Money Won</p>
+            {/* <span className="text-green-500 text-2xl">💰</span> */}
+            <p className="text-gray-400 mt-2 mb-2">Money Won</p>
             <p>${0}</p>
           </div>
         </div>

@@ -4,7 +4,7 @@ import axios from "axios";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { DefaultInput } from "../../../utils/input-form/defaultinput";
+import { DefaultInput } from "../../../../utils/input-form/defaultinput";
 
 export default function Page() {
   const [data, setData] = useState(DefaultInput);

@@ -54,9 +54,9 @@ function Nav() {
     setIsLogin(false);
     setUsername("");
 
-    const protectedPages = ["/home", "/checkpoints", "/rule"];
+    const protectedPages = ["/user/home", "/user/checkpoints", "/user/rule"];
     if (!protectedPages.includes(currentPathName)) {
-      router.push("/login");
+      router.push("/user/login");
     }
   };
 
@@ -66,33 +66,33 @@ function Nav() {
 
       <div className="flex items-center space-x-20 text-[18px] font-bold">
         <Link
-          href="/home"
+          href="/user/home"
           className={`home hover:text-[#C8F321] ${
-            currentPathName === "/home" ? "text-[#C8F321]" : ""
+            currentPathName === "/user/home" ? "text-[#C8F321]" : ""
           }`}
         >
           หน้าหลัก
         </Link>
         <Link
-          href="/rank"
+          href="/user/rank"
           className={`home hover:text-[#C8F321] ${
-            currentPathName === "/rank" ? "text-[#C8F321]" : ""
+            currentPathName === "/user/rank" ? "text-[#C8F321]" : ""
           }`}
         >
           แรงค์
         </Link>
         <Link
-          href="/checkpoints"
+          href="/user/checkpoints"
           className={`home hover:text-[#C8F321] ${
-            currentPathName === "/checkpoints" ? "text-[#C8F321]" : ""
+            currentPathName === "/user/checkpoints" ? "text-[#C8F321]" : ""
           }`}
         >
           ด่าน
         </Link>
         <Link
-          href="/rule"
+          href="/user/rule"
           className={`home hover:text-[#C8F321] ${
-            currentPathName === "/rule" ? "text-[#C8F321]" : ""
+            currentPathName === "/user/rule" ? "text-[#C8F321]" : ""
           }`}
         >
           กฏการเล่น
@@ -105,7 +105,7 @@ function Nav() {
                 className="text-white cursor-pointer"
                 style={{
                   userSelect: "none",
-                  marginRight: "1rem"
+                  marginRight: "2.5rem"
                 }}
                 onClick={() => setDropdownOpen(!dropdownOpen)}
               >
@@ -127,7 +127,7 @@ function Nav() {
                 >
                   <ul>
                     <li className="cursor-pointer px-4 py-2">
-                      <Link href="/profile">โปรไฟล์</Link>
+                      <Link href="/user/profile">โปรไฟล์</Link>
                     </li>
                     <li
                       className="px-4 py-2 cursor-pointer"
@@ -141,7 +141,7 @@ function Nav() {
             </div>
           ) : (
             <button className="bg-[#C8F321] text-black rounded-[20px] px-6 py-2 flex items-center justify-center">
-              <Link href="/login">เข้าสู่ระบบ</Link>
+              <Link href="/user/login">เข้าสู่ระบบ</Link>
             </button>
           )}
         </div>
