@@ -49,9 +49,11 @@ function Rank() {
 
   console.log(userCount);
   return (
-    <div style={{
-      marginTop: "5rem"
-    }}>
+    <div
+      style={{
+        marginTop: "5rem"
+      }}
+    >
       <h1 className="text-center mt-5 mb-5 text-[56px] font-bold text-white">
         Score in VR Game
       </h1>
@@ -74,7 +76,7 @@ function Rank() {
           <div
             className="text-black"
             style={{
-              maxHeight: "400px", // ความสูงของ container
+              maxHeight: "410px", // ความสูงของ container
               overflowY: "auto" // ใช้ 'auto' เพื่อให้ scrollbar แสดงเมื่อจำเป็น
             }}
           >
@@ -85,8 +87,9 @@ function Rank() {
                   className="flex justify-between font-bold text-[20px] mb-3"
                 >
                   <h1 className="ml-5">
-                    {index + 1}.{item.firstname}
+                    {index + 1}.{item.firstname} {" "} {item.lastname}
                   </h1>
+
                   <h1
                     style={{
                       marginRight: "4rem"

@@ -1,3 +1,5 @@
+import { Score } from "@mui/icons-material";
+
 export interface Checkpoint {
     id: string;
     name: string;
@@ -11,3 +13,4 @@ export interface Checkpoint {
     updated_at: string;
     is_deleted: boolean
 }
+
