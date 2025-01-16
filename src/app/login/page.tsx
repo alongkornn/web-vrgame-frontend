@@ -78,7 +78,7 @@ export default function Page() {
 
         <p className="font-bold">
           Don't have an account?{" "}
-          <Link className="text-[#4282DA]" href="/user/register">
+          <Link className="text-[#4282DA]" href="/register">
             Create account
           </Link>
         </p>

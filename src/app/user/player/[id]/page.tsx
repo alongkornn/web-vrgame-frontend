@@ -38,7 +38,7 @@ function Player() {
         Name : {data.firstname} {data.lastname}
       </h1>
       <h1>Score : {data.score}</h1>
-      <h1>
+      {/* <h1>
         Current Checkpoint :{" "}
         {data.currentCheckpoint == null ? (
           <p>undefind</p>
@@ -55,7 +55,7 @@ function Player() {
             <div key={index}>{item.name}</div>
           ))
         )}
-      </h1>
+      </h1> */}
     </div>
   );
 }

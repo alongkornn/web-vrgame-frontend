@@ -1,4 +1,4 @@
-import { Checkpoint } from "../checkpoint/checkpoint";
+import { Checkpoint, CompletedCheckpoint } from "../checkpoint/checkpoint";
 
 export interface User {
     id: string;
@@ -7,8 +7,8 @@ export interface User {
     email: string;
     password: string;
     score: number;
-    currentCheckpoint?: Checkpoint;
-    completedCheckpoint: Checkpoint[];
+    currentCheckpoint?: string;
+    completedCheckpoint: CompletedCheckpoint[];
 }
   
 export const DefaultUser: User = {
@@ -18,19 +18,6 @@ export const DefaultUser: User = {
   email: "",
   password: "",
   score: 0,
-  currentCheckpoint: {
-    id: "1",
-    name: "",
-    maxScore: 0,
-    passScore: 100,
-    score: 0,
-    time: "",
-    timeLimit: "",
-    category: "",
-    created_at: "",
-    updated_at: "",
-    is_deleted: false
-
-  },
+  currentCheckpoint: "",
   completedCheckpoint: [],
 };

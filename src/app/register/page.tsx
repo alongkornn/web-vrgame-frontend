@@ -4,7 +4,7 @@ import axios from "axios";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { DefaultInput } from "../../../../utils/input-form/defaultinput";
+import { DefaultInput } from "../../../utils/input-form/defaultinput";
 
 export default function Page() {
   const [data, setData] = useState(DefaultInput);
@@ -20,7 +20,7 @@ export default function Page() {
 
   // ตรวจสอบรหัสผ่าน
   const validatePassword = (password: string) => {
-    return password.length >= 8;
+    return password.trim() !== "" && password.length >= 8;
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -49,7 +49,8 @@ export default function Page() {
       return;
     }
 
-    if (!data.firstname || !data.lastname) {
+    if (!data.firstname || !data.lastname || !data.password.trim()) {
+      setIsValidPassword(false);
       alert("กรุณากรอกข้อมูลให้ครบถ้วน!");
       return;
     }
@@ -151,8 +152,11 @@ export default function Page() {
                 width: "300px"
               }}
             />
-            {!isValidPassword && (
-              <p className="text-red-500 mt-1">
+            {!isValidPassword && data.password.trim() === "" && (
+              <p className="text-red-500 mt-1 mr-12">กรุณากรอกรหัสผ่าน</p>
+            )}
+            {!isValidPassword && data.password.trim() !== "" && (
+              <p className="text-red-500 mt-1 ml-10">
                 รหัสผ่านต้องมีอย่างน้อย 8 ตัวอักษร
               </p>
             )}

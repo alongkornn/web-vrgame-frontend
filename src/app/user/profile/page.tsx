@@ -6,10 +6,14 @@ import { useRouter } from "next/navigation";
 import axios from "axios";
 import { decodeJWT } from "../../../../utils/jwt/decodejwt";
 import { DefaultUser, User } from "../../../../utils/user/user";
+import {
+  Checkpoint,
+  DefaultCheckpoint
+} from "../../../../utils/checkpoint/checkpoint";
 
 const Profile = () => {
   const [user, setUser] = useState<User>(DefaultUser);
-  const [checkpoint, setCheckpoint] = useState({});
+  const [checkpoint, setCheckpoint] = useState<Checkpoint>(DefaultCheckpoint);
   const router = useRouter();
 
   useEffect(() => {
@@ -32,7 +36,6 @@ const Profile = () => {
 
         if (response.status === 200) {
           setUser(response.data.data);
-          getCheckpointByID();
         } else {
           router.push("/login");
         }
@@ -49,23 +52,38 @@ const Profile = () => {
     getUser();
   }, [router]);
 
-  const getCheckpointByID = async () => {
+  useEffect(() => {
+    if (user.id) {
+      getCheckpointByID(user.id);
+    }
+  }, [user.id]);
+
+  const getCheckpointByID = async (userId: string) => {
     try {
       const response = await axios.get(
-        `http://localhost:8000/api/checkpoint/current/${user.id}`
+        `http://localhost:8000/api/checkpoint/current/${userId}`
       );
 
       if (response.status === 200) {
-        setCheckpoint(response.data.data);
+        // ใช้ข้อมูลที่ได้รับจาก API โดยตรง
+        const rawCheckpoint: Checkpoint = response.data.data;
+        await setCheckpoint(rawCheckpoint);
+        console.log("rew checkpoint:", rawCheckpoint);
       } else {
-        return response.data.message;
+        console.error("Error fetching checkpoint:", response.data.message);
       }
-
-      console.log(checkpoint);
     } catch (error) {
-      return console.log(error);
+      if (axios.isAxiosError(error)) {
+        console.error("API Error:", error.response?.data || error.message);
+      } else {
+        console.error("Unknown Error:", error);
+      }
     }
   };
+
+  useEffect(() => {
+    console.log("checkpoint:", checkpoint);
+  }, [checkpoint]);
 
   return (
     <div className="flex flex-col items-center text-white font-bold mt-10">
@@ -100,12 +118,12 @@ const Profile = () => {
           <div className="flex flex-col items-center p-4 bg-gray-800 rounded-lg">
             {/* <span className="text-blue-500 text-2xl">💎</span> */}
             <p className="text-gray-400 mt-2 mb-2">ด่านปัจจุบัน</p>
-            <p>ด่านหนึ่ง</p>
+            <p>{checkpoint.name}</p>
           </div>
           <div className="flex flex-col items-center p-4 bg-gray-800 rounded-lg">
             {/* <span className="text-green-500 text-2xl">💰</span> */}
-            <p className="text-gray-400 mt-2 mb-2">Money Won</p>
-            <p>${0}</p>
+            <p className="text-gray-400 mt-2 mb-2">หมวดหมู่ปัจจุบัน</p>
+            <p>{checkpoint.category}</p>
           </div>
         </div>
       </div>
@@ -114,16 +132,18 @@ const Profile = () => {
       <div className="mt-8 w-full max-w-lg">
         <h2 className="text-xl mb-4">Catgatory</h2>
         <div className="flex justify-around">
+          <button className="p-4 bg-gray-800 rounded-lg">โพรเจคไทล์</button>
           <button className="p-4 bg-gray-800 rounded-lg">
-            Force and Movement
+            โมเมนตัมและการชน
           </button>
-          <button className="p-4 bg-gray-800 rounded-lg">Projectile</button>
-          <button className="p-4 bg-gray-800 rounded-lg">Momentum</button>
+          <button className="p-4 bg-gray-800 rounded-lg">
+            แรงและกฎการเคลื่อน
+          </button>
         </div>
       </div>
 
       {/* Statistics Section */}
-      <div className="mt-8 w-full max-w-lg">
+      {/* <div className="mt-8 w-full max-w-lg">
         <h2 className="text-xl mb-4">Statistics</h2>
         <div className="grid grid-cols-2 gap-4">
           <div className="flex flex-col items-center p-4 bg-gray-800 rounded-lg">
@@ -143,7 +163,7 @@ const Profile = () => {
             <p>{0}</p>
           </div>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };

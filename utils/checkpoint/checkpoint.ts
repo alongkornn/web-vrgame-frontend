@@ -3,14 +3,22 @@ import { Score } from "@mui/icons-material";
 export interface Checkpoint {
     id: string;
     name: string;
-    maxScore: number;
-    passScore: number;
-    score: number;
-    time: string;
-    timeLimit: string;
+    max_score: number;
+    pass_score: number;
+    time_limit: string;
     category: string;
-    created_at: string;
-    updated_at: string;
-    is_deleted: boolean
 }
 
+export interface CompletedCheckpoint {
+    checkpoint_id: string;
+    score: number;
+}
+
+export const DefaultCheckpoint: Checkpoint = {
+    id: "",
+    name: "",
+    max_score: 100,
+    pass_score: 50,
+    time_limit: "",
+    category: "",
+}

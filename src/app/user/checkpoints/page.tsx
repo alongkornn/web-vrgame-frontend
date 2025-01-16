@@ -19,18 +19,18 @@ const Checkpoints = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen">
-      <h1 className="text-white text-4xl font-bold mb-10">หมวดหมู่</h1>
+    <div className="flex flex-col items-center justify-center mt-[10rem]">
+      <h1 className="text-white text-4xl font-bold mb-5">หมวดหมู่</h1>
       <div className="w-full max-w-5xl space-y-6">
         {categories.map((category, index) => (
           <div
             key={index}
-            className="cursor-pointer bg-gray-800 text-white text-xl font-semibold p-6 rounded-lg shadow-md hover:bg-gray-700 transition-all"
+            className="cursor-pointer bg-gray-800 text-white text-xl p-6 rounded-lg shadow-md hover:bg-gray-700 transition-all"
             style={{ height: "150px" }}
             onClick={() => handleRedirect(category.redirectTo)}
           >
             <div className="flex items-center justify-center h-full">
-              {category.name}
+              {category.name} : 10 ด่าน
             </div>
           </div>
         ))}

@@ -56,7 +56,7 @@ function Nav() {
 
     const protectedPages = ["/user/home", "/user/checkpoints", "/user/rule"];
     if (!protectedPages.includes(currentPathName)) {
-      router.push("/user/login");
+      router.push("/login");
     }
   };
 
@@ -141,7 +141,7 @@ function Nav() {
             </div>
           ) : (
             <button className="bg-[#C8F321] text-black rounded-[20px] px-6 py-2 flex items-center justify-center">
-              <Link href="/user/login">เข้าสู่ระบบ</Link>
+              <Link href="/login">เข้าสู่ระบบ</Link>
             </button>
           )}
         </div>
