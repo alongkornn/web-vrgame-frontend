@@ -74,12 +74,12 @@ function AdminNav() {
           หน้าหลัก
         </Link>
         <Link
-          href="/admin/rank"
+          href="/admin/manage"
           className={`home hover:text-[#C8F321] ${
-            currentPathName === "/admin/rank" ? "text-[#C8F321]" : ""
+            currentPathName === "/admin/manage" ? "text-[#C8F321]" : ""
           }`}
         >
-          แรงค์
+          จัดการผู้เล่น
         </Link>
         <Link
           href="/admin/checkpoints"

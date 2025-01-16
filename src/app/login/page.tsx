@@ -22,7 +22,7 @@ export default function Page() {
         `http://localhost:8000/api/auth/login`,
         data,
         {
-          withCredentials: true // เปิดการส่งคุกกี้
+          withCredentials: true
         }
       );
 
