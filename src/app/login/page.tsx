@@ -2,9 +2,11 @@
 
 import axios from "axios";
 import { useState } from "react";
-import { API_URL } from "../../../utils/api-url/api.url";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { jwtDecode } from "jwt-decode";
+import { getCookie } from "../../../utils/jwt/getCookie";
+import { decodeJWT } from "../../../utils/jwt/decodejwt";
 
 export default function Page() {
   const [data, setData] = useState({});
@@ -23,12 +25,30 @@ export default function Page() {
           withCredentials: true // เปิดการส่งคุกกี้
         }
       );
+
       if (response.status === 200) {
         alert(response.data.message);
-        router.push("/user/home"); // Redirect ไปหน้า /home
+
+        const token = getCookie("token");
+        if (!token) {
+          router.push("/login");
+          return;
+        }
+
+        const decodedToken = decodeJWT(token);
+        const userRole = decodedToken.role;
+
+        // ตรวจสอบ role และ Redirect ไปยังหน้าเฉพาะ
+        if (userRole === "admin") {
+          router.push("/admin/home");
+        } else if (userRole === "player") {
+          router.push("/user/home");
+        } else {
+          alert("Invalid user role");
+        }
       }
     } catch (error) {
-      await alert("Fail to login");
+      alert("Fail to login");
     }
   };
 

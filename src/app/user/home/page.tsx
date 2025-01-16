@@ -37,12 +37,15 @@ function HomePage() {
           {/* Right Section: Image */}
           <div className="flex-1">
             <img
-              src="/vr.svg"
+              src="/background-vr.jpg"
               alt="VR"
               style={{
-                width: "1500px", 
+                width: "890px",
                 height: "auto",
-                objectFit: "contain"
+                objectFit: "contain",
+                marginTop: "3rem",
+                boxShadow: "0  30px 15px rgba(0, 0, 0, 0.3)", // ขอบจาง ๆ
+                borderRadius: "1rem" // ทำให้ขอบมน (ถ้าต้องการ)
               }}
             />
           </div>

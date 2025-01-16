@@ -5,7 +5,7 @@ import { getCookie } from "../../../utils/jwt/getCookie";
 import { decodeJWT } from "../../../utils/jwt/decodejwt";
 import { usePathname, useRouter } from "next/navigation";
 
-function Nav() {
+function AdminNav() {
   const router = useRouter();
   const currentPathName = usePathname();
 
@@ -62,45 +62,37 @@ function Nav() {
 
   return (
     <div className="flex items-center justify-between text-white text-20">
-      <img
-        src="/logo-vr.jpg"
-        alt=""
-        style={{
-          width: "5rem", // กำหนดขนาดความกว้าง
-          height: "auto" // ความสูงจะปรับอัตโนมัติตามอัตราส่วนของภาพ
-        }}
-        onClick={(e) => router.push("/user/home")}
-      />
+      <h1 className="font-bold text-[40px]">Logo</h1>
 
       <div className="flex items-center space-x-20 text-[18px] font-bold">
         <Link
-          href="/user/home"
+          href="/admin/home"
           className={`home hover:text-[#C8F321] ${
-            currentPathName === "/user/home" ? "text-[#C8F321]" : ""
+            currentPathName === "/admin/home" ? "text-[#C8F321]" : ""
           }`}
         >
           หน้าหลัก
         </Link>
         <Link
-          href="/user/rank"
+          href="/admin/rank"
           className={`home hover:text-[#C8F321] ${
-            currentPathName === "/user/rank" ? "text-[#C8F321]" : ""
+            currentPathName === "/admin/rank" ? "text-[#C8F321]" : ""
           }`}
         >
           แรงค์
         </Link>
         <Link
-          href="/user/checkpoints"
+          href="/admin/checkpoints"
           className={`home hover:text-[#C8F321] ${
-            currentPathName === "/user/checkpoints" ? "text-[#C8F321]" : ""
+            currentPathName === "/admin/checkpoints" ? "text-[#C8F321]" : ""
           }`}
         >
           ด่าน
         </Link>
         <Link
-          href="/user/rule"
+          href="/admin/rule"
           className={`home hover:text-[#C8F321] ${
-            currentPathName === "/user/rule" ? "text-[#C8F321]" : ""
+            currentPathName === "/admin/rule" ? "text-[#C8F321]" : ""
           }`}
         >
           กฏการเล่น
@@ -135,7 +127,7 @@ function Nav() {
                 >
                   <ul>
                     <li className="cursor-pointer px-4 py-2">
-                      <Link href="/user/profile">โปรไฟล์</Link>
+                      <Link href="/admin/profile">โปรไฟล์</Link>
                     </li>
                     <li
                       className="px-4 py-2 cursor-pointer"
@@ -158,4 +150,4 @@ function Nav() {
   );
 }
 
-export default Nav;
+export default AdminNav;

@@ -9,7 +9,7 @@ export default function NavWrapper({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
-  const hiddenNavPaths = ["/login", "/register"];
+  const hiddenNavPaths = ["/login", "/register", "/admin/home", "/admin/manage"];
 
   return (
     <>
