@@ -4,7 +4,6 @@ import axios from "axios";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { jwtDecode } from "jwt-decode";
 import { getCookie } from "../../../utils/jwt/getCookie";
 import { decodeJWT } from "../../../utils/jwt/decodejwt";
 

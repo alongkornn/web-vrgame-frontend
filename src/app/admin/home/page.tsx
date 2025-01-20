@@ -51,7 +51,7 @@ const page = () => {
     };
 
     getUser();
-  }, [router]);
+  }, []);
   return (
     <div>
       <AdminNav />

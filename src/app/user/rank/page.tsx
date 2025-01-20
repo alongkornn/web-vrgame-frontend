@@ -20,7 +20,7 @@ function Rank() {
       return;
     }
 
-    const protectRoute = async () => {
+    const getUserBySortScore = async () => {
       try {
         const response = await axios.get(
           "http://localhost:8000/api/user/sort/score",
@@ -44,10 +44,32 @@ function Rank() {
       }
     };
 
-    protectRoute();
-  }, [router]);
+    getUserBySortScore();
 
-  console.log(userCount);
+    // WebSocket setup
+    const socket = new WebSocket("ws://localhost:8080/ws");
+
+    socket.onmessage = (event) => {
+      const updatedUser = JSON.parse(event.data);
+      console.log("Updated user data:", updatedUser);
+
+      // Update the users list with the updated user score
+      setUsers((prevUsers) =>
+        prevUsers.map((user) =>
+          user.id === updatedUser.id ? updatedUser : user
+        )
+      );
+    };
+
+    socket.onclose = () => {
+      console.log("WebSocket connection closed");
+    };
+
+    return () => {
+      socket.close(); // Cleanup WebSocket connection on unmount
+    };
+  }, []);
+
   return (
     <div
       style={{
