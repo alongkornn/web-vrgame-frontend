@@ -62,7 +62,7 @@ function AdminNav() {
 
   return (
     <div className="flex items-center justify-between text-white text-20">
-      <h1 className="font-bold text-[40px]">Logo</h1>
+      <h1 className="font-bold text-[40px]">Admin</h1>
 
       <div className="flex items-center space-x-20 text-[18px] font-bold">
         <Link

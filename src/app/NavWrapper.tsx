@@ -18,7 +18,7 @@ export default function NavWrapper({
     "/admin/home",
     "/admin/manage"
   ];
-  const hiddenNavUserPaths = ["/user/home", "/user/rank", "/user/profile"];
+  const hiddenNavUserPaths = ["/login", "/register"];
 
   // ดึง JWT Token จาก cookie
   const token = getCookie("token"); // คาดว่า token เก็บใน cookie ชื่อ "token"
@@ -33,16 +33,15 @@ export default function NavWrapper({
   return (
     <>
       {/* ตรวจสอบว่าไม่อยู่ในเส้นทางที่ไม่ต้องการ navbar */}
-      {!hiddenNavPaths.includes(pathname) &&
-        !hiddenNavUserPaths.includes(pathname) && (
-          <>
-            {/* แสดง Navbar ของ Admin ถ้า role เป็น admin */}
-            {userRole === "admin" && <AdminNav />}
+      {!hiddenNavUserPaths.includes(pathname) && (
+        <>
+          {/* แสดง Navbar ของ Admin ถ้า role เป็น admin */}
+          {userRole === "admin" && <AdminNav />}
 
-            {/* แสดง Navbar ของ Player ถ้า role เป็น player */}
-            {userRole === "player" && <Nav />}
-          </>
-        )}
+          {/* แสดง Navbar ของ Player ถ้า role เป็น player */}
+          {userRole === "player" && <Nav />}
+        </>
+      )}
       {children}
     </>
   );
