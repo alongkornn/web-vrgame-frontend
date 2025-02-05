@@ -9,8 +9,8 @@ export interface User {
     score: number;
     role: string;
     status: string;
-    currentCheckpoint?: string;
-    completedCheckpoint: CompletedCheckpoint[];
+    current_checkpoint?: string;
+    completed_checkpoints: CompletedCheckpoint[];
 }
   
 export const DefaultUser: User = {
@@ -22,6 +22,6 @@ export const DefaultUser: User = {
   score: 0,
   role: "",
   status: "",
-  currentCheckpoint: "",
-  completedCheckpoint: [],
+  current_checkpoint: "",
+  completed_checkpoints: [],
 };

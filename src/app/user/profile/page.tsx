@@ -29,28 +29,62 @@ const Profile = () => {
       try {
         const response = await axios.get(
           `http://localhost:8000/api/user/${decodedToken.user_id}`,
-          {
-            withCredentials: true
-          }
+          { withCredentials: true }
         );
 
+        console.log("API Response:", response.data.data); // ✅ Debug API Response
+
         if (response.status === 200) {
-          setUser(response.data.data);
+          setUser({
+            ...response.data.data,
+            completedCheckpoint: response.data.data.completedCheckpoint || []
+          });
         } else {
           router.push("/login");
         }
       } catch (error) {
-        if (axios.isAxiosError(error)) {
-          console.error("API Error:", error.response?.data || error.message);
-        } else {
-          console.error("Unknown Error:", error);
-        }
+        console.error("API Error:", error);
         router.push("/login");
       }
     };
 
     getUser();
-  }, [router]);
+
+    // WebSocket setup
+    const socketUrl = "ws://localhost:8000/ws";
+    const socket = new WebSocket(socketUrl);
+
+    socket.onmessage = (event) => {
+      try {
+        const updatedUser = JSON.parse(event.data);
+        console.log("WebSocket Updated User:", updatedUser); // ✅ Debug ตรงนี้
+
+        setUser((prevUser) => ({
+          ...prevUser,
+          completedCheckpoint: updatedUser.completedCheckpoints || []
+        }));
+      } catch (error) {
+        console.error("Error parsing WebSocket message:", error);
+      }
+    };
+
+    socket.onclose = (event) => {
+      console.log("WebSocket connection closed:", event);
+      // Attempt to reconnect after a delay
+      setTimeout(() => {
+        console.log("Reconnecting to WebSocket...");
+        new WebSocket(socketUrl); // Reconnect
+      }, 3000); // 5 seconds delay before reconnecting
+    };
+
+    socket.onerror = (error) => {
+      console.error("WebSocket error:", error);
+    };
+
+    return () => {
+      socket.close(); // Clean up on unmount
+    };
+  }, []);
 
   useEffect(() => {
     if (user.id) {
@@ -65,10 +99,7 @@ const Profile = () => {
       );
 
       if (response.status === 200) {
-        // ใช้ข้อมูลที่ได้รับจาก API โดยตรง
-        const rawCheckpoint: Checkpoint = response.data.data;
-        await setCheckpoint(rawCheckpoint);
-        console.log("rew checkpoint:", rawCheckpoint);
+        setCheckpoint(response.data.data);
       } else {
         console.error("Error fetching checkpoint:", response.data.message);
       }
@@ -81,9 +112,7 @@ const Profile = () => {
     }
   };
 
-  useEffect(() => {
-    console.log("checkpoint:", checkpoint);
-  }, [checkpoint]);
+  console.log("Rendering completedCheckpoint:", user.completed_checkpoints);
 
   return (
     <div className="flex flex-col items-center text-white font-bold mt-10">
@@ -96,7 +125,8 @@ const Profile = () => {
             className="w-24 h-24 rounded-full border-4 border-gray-600"
           />
           <h1 className="mt-4 text-2xl">
-            {user.firstname.toUpperCase()} {user.lastname.toUpperCase()}
+            {user.firstname?.toUpperCase() || ""}{" "}
+            {user.lastname?.toUpperCase() || ""}
           </h1>
         </div>
       </div>
@@ -106,64 +136,40 @@ const Profile = () => {
         <h2 className="text-xl mb-4">รายละเอียด</h2>
         <div className="grid grid-cols-2 gap-4">
           <div className="flex flex-col items-center p-4 bg-gray-800 rounded-lg">
-            {/* <span className="text-red-500 text-2xl">🔥</span> */}
             <p className="text-gray-400 mt-2 mb-2">คะแนน</p>
-            <p>{user.score ? user.score : "0"}</p>
+            <p>{user.score || "0"}</p>
           </div>
           <div className="flex flex-col items-center p-4 bg-gray-800 rounded-lg">
-            {/* <span className="text-yellow-500 text-2xl">🏆</span> */}
             <p className="text-gray-400 mt-2 mb-2">จำนวนชนะ</p>
-            <p>{0}</p>
+            <p>0</p>
           </div>
           <div className="flex flex-col items-center p-4 bg-gray-800 rounded-lg">
-            {/* <span className="text-blue-500 text-2xl">💎</span> */}
             <p className="text-gray-400 mt-2 mb-2">ด่านปัจจุบัน</p>
-            <p>{checkpoint.name}</p>
+            <p>{checkpoint?.name || "N/A"}</p>
           </div>
           <div className="flex flex-col items-center p-4 bg-gray-800 rounded-lg">
-            {/* <span className="text-green-500 text-2xl">💰</span> */}
             <p className="text-gray-400 mt-2 mb-2">หมวดหมู่ปัจจุบัน</p>
-            <p>{checkpoint.category}</p>
+            <p>{checkpoint?.category || "N/A"}</p>
           </div>
         </div>
       </div>
 
       {/* Games Section */}
       <div className="mt-8 w-full max-w-lg">
-        <h2 className="text-xl mb-4">Catgatory</h2>
-        <div className="flex justify-around">
-          <button className="p-4 bg-gray-800 rounded-lg">โพรเจคไทล์</button>
-          <button className="p-4 bg-gray-800 rounded-lg">
-            โมเมนตัมและการชน
-          </button>
-          <button className="p-4 bg-gray-800 rounded-lg">
-            แรงและกฎการเคลื่อน
-          </button>
+        <h2 className="text-xl mb-4">ด่านที่เล่นผ่านแล้ว</h2>
+        <div className="flex justify-around p-4 bg-gray-800 rounded-lg">
+          {user.completed_checkpoints &&
+          user.completed_checkpoints.length > 0 ? (
+            user.completed_checkpoints.map((checkpoint, index) => (
+              <button key={index}>
+                {checkpoint.name}({checkpoint.category})
+              </button>
+            ))
+          ) : (
+            <button>ไม่มี</button>
+          )}
         </div>
       </div>
-
-      {/* Statistics Section */}
-      {/* <div className="mt-8 w-full max-w-lg">
-        <h2 className="text-xl mb-4">Statistics</h2>
-        <div className="grid grid-cols-2 gap-4">
-          <div className="flex flex-col items-center p-4 bg-gray-800 rounded-lg">
-            <p className="text-gray-400">Total Play Time</p>
-            <p>{0} Hours</p>
-          </div>
-          <div className="flex flex-col items-center p-4 bg-gray-800 rounded-lg">
-            <p className="text-gray-400">Money Won</p>
-            <p>${0}</p>
-          </div>
-          <div className="flex flex-col items-center p-4 bg-gray-800 rounded-lg">
-            <p className="text-gray-400">Last Played</p>
-            <p>{"N/A"}</p>
-          </div>
-          <div className="flex flex-col items-center p-4 bg-gray-800 rounded-lg">
-            <p className="text-gray-400">Total Wins</p>
-            <p>{0}</p>
-          </div>
-        </div>
-      </div> */}
     </div>
   );
 };

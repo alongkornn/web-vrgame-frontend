@@ -112,8 +112,8 @@ const PlayerDetail = () => {
           </p>
           <p>
             <span className="font-semibold">ด่านที่เล่นผ่านไปแล้ว:</span>{" "}
-            {data.completedCheckpoint && data.completedCheckpoint.length > 0
-              ? data.completedCheckpoint.join(", ")
+            {data.completed_checkpoints && data.completed_checkpoints.length > 0
+              ? data.completed_checkpoints.join(", ")
               : "ยังไม่พบด่านที่เล่นผ่านแล้ว"}
           </p>
         </div>

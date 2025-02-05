@@ -18,7 +18,7 @@ export default function NavWrapper({
     "/admin/home",
     "/admin/manage"
   ];
-  const hiddenNavUserPaths = ["/login", "/register"];
+  const hiddenNavUserPaths = ["/login", "/register", "/"];
 
   // ดึง JWT Token จาก cookie
   const token = getCookie("token"); // คาดว่า token เก็บใน cookie ชื่อ "token"

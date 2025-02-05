@@ -1,5 +1,3 @@
-import { Score } from "@mui/icons-material";
-
 export interface Checkpoint {
     id: string;
     name: string;
@@ -11,6 +9,8 @@ export interface Checkpoint {
 
 export interface CompletedCheckpoint {
     checkpoint_id: string;
+    name: string;
+    category: string;
     score: number;
 }
 
