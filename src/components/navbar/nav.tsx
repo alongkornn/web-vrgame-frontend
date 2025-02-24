@@ -54,7 +54,7 @@ function Nav() {
     setIsLogin(false);
     setUsername("");
 
-    const protectedPages = ["/user/home", "/user/checkpoints", "/user/rule"];
+    const protectedPages = ["/user/checkpoints", "/user/rule"];
     if (!protectedPages.includes(currentPathName)) {
       router.push("/login");
     }
@@ -74,9 +74,9 @@ function Nav() {
 
       <div className="flex items-center space-x-20 text-[18px] font-bold">
         <Link
-          href="/user/home"
+          href="/"
           className={`home hover:text-[#C8F321] ${
-            currentPathName === "/user/home" ? "text-[#C8F321]" : ""
+            currentPathName === "/" ? "text-[#C8F321]" : ""
           }`}
         >
           หน้าหลัก

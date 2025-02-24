@@ -14,6 +14,13 @@ export interface CompletedCheckpoint {
     score: number;
 }
 
+export const DefaultCompletedCheckpoint: CompletedCheckpoint = {
+    checkpoint_id: "",
+    name: "",
+    category: "",
+    score: 0
+
+}
 export const DefaultCheckpoint: Checkpoint = {
     id: "",
     name: "",

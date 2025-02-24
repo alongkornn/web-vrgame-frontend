@@ -1,10 +1,11 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import Nav from "@/components/navbar/nav";
 import AdminNav from "@/components/navbar/adminNav";
-import { getCookie } from "../../utils/jwt/getCookie"; // ฟังก์ชั่นที่ใช้ดึง cookie
-import { jwtDecode } from "jwt-decode"; // ใช้สำหรับถอดรหัส JWT
+import { getCookie } from "../../utils/jwt/getCookie";
+import { jwtDecode } from "jwt-decode";
 
 export default function NavWrapper({
   children
@@ -12,23 +13,23 @@ export default function NavWrapper({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
-  const hiddenNavPaths = [
-    "/login",
-    "/register",
-    "/admin/home",
-    "/admin/manage"
-  ];
-  const hiddenNavUserPaths = ["/login", "/register", "/"];
+  const hiddenNavUserPaths = ["/login", "/register"];
 
-  // ดึง JWT Token จาก cookie
-  const token = getCookie("token"); // คาดว่า token เก็บใน cookie ชื่อ "token"
-  let userRole = null;
+  const [userRole, setUserRole] = useState<string | null>(null);
 
-  // ถอดรหัส JWT Token ถ้ามี
-  if (token) {
-    const decodedToken: any = jwtDecode(token);
-    userRole = decodedToken.role; // สมมติว่า role อยู่ใน token
-  }
+  useEffect(() => {
+    // ดึง Token เฉพาะบน Client
+    const token = getCookie("token");
+
+    if (token) {
+      try {
+        const decodedToken: any = jwtDecode(token);
+        setUserRole(decodedToken.role || null);
+      } catch (error) {
+        console.error("Invalid token:", error);
+      }
+    }
+  }, []);
 
   return (
     <>
