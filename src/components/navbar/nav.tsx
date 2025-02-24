@@ -79,7 +79,7 @@ function Nav() {
             currentPathName === "/" ? "text-[#C8F321]" : ""
           }`}
         >
-          หน้าหลัก
+          Home
         </Link>
         <Link
           href="/user/rank"
@@ -87,7 +87,7 @@ function Nav() {
             currentPathName === "/user/rank" ? "text-[#C8F321]" : ""
           }`}
         >
-          แรงค์
+          Rank
         </Link>
         <Link
           href="/user/checkpoints"
@@ -95,7 +95,7 @@ function Nav() {
             currentPathName === "/user/checkpoints" ? "text-[#C8F321]" : ""
           }`}
         >
-          ด่าน
+          Levels
         </Link>
         <Link
           href="/user/rule"
@@ -103,7 +103,7 @@ function Nav() {
             currentPathName === "/user/rule" ? "text-[#C8F321]" : ""
           }`}
         >
-          กฏการเล่น
+          Rule
         </Link>
         <div>
           {isLogin ? (
@@ -135,13 +135,13 @@ function Nav() {
                 >
                   <ul>
                     <li className="cursor-pointer px-4 py-2">
-                      <Link href="/user/profile">โปรไฟล์</Link>
+                      <Link href="/user/profile">Profile</Link>
                     </li>
                     <li
                       className="px-4 py-2 cursor-pointer"
                       onClick={handleLogout}
                     >
-                      ออกจากระบบ
+                      Login out
                     </li>
                   </ul>
                 </div>
@@ -149,7 +149,7 @@ function Nav() {
             </div>
           ) : (
             <button className="bg-[#C8F321] text-black rounded-[20px] px-6 py-2 flex items-center justify-center">
-              <Link href="/login">เข้าสู่ระบบ</Link>
+              <Link href="/login">Login</Link>
             </button>
           )}
         </div>

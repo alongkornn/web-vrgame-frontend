@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import Nav from "@/components/navbar/nav";
 import AdminNav from "@/components/navbar/adminNav";
 import { getCookie } from "../../utils/jwt/getCookie";
-import { jwtDecode } from "jwt-decode";
+import { decodeJWT } from "../../utils/jwt/decodejwt";
 
 export default function NavWrapper({
   children
@@ -23,7 +23,7 @@ export default function NavWrapper({
 
     if (token) {
       try {
-        const decodedToken: any = jwtDecode(token);
+        const decodedToken: any = decodeJWT(token);
         setUserRole(decodedToken.role || null);
       } catch (error) {
         console.error("Invalid token:", error);

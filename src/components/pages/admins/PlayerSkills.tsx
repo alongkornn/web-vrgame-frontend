@@ -34,9 +34,12 @@ const Page = () => {
     // ดึงข้อมูล user ทั้งหมด
     const fetchUsers = async () => {
       try {
-        const response = await axios.get(`http://localhost:8000/api/user`, {
-          withCredentials: true
-        });
+        const response = await axios.get(
+          `http://localhost:8000/api/user/player`,
+          {
+            withCredentials: true
+          }
+        );
 
         if (response.status === 200) {
           const fetchedUsers = response.data.data;
@@ -68,13 +71,17 @@ const Page = () => {
       year: "numeric"
     });
   };
-    
+
   // กรอง users ให้แสดงตามที่ค้นหา
   const filteredUsers = users.filter((user) =>
     `${user.firstname} ${user.lastname}`
       .toLowerCase()
       .includes(search.toLowerCase())
   );
+
+  const handleOpenPlayerDetail = (user_id: string) => {
+    router.push("/admin/manage/" + user_id);
+  };
 
   return (
     <div className="min-h-screen bg-gray-100 flex ml-[5rem]">
@@ -114,6 +121,7 @@ const Page = () => {
                   <tr
                     key={user.id}
                     className="border-b border-gray-200 hover:bg-gray-50"
+                    onClick={() => handleOpenPlayerDetail(user.id)}
                   >
                     <td className="py-4 px-6 flex items-center">
                       <span>
